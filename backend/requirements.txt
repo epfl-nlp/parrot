@@ -1,0 +1,12 @@
+Flask
+flask-cors
+gunicorn
+Flask-SQLAlchemy
+SQLAlchemy-serializer
+flask-expects-json
+Flask-HTTPAuth
+openai
+flake8
+black
+psycopg2-binary
+Flask-Migrate

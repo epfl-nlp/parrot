@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "gpt_wrapper"
+version = "0.1.0"
+description = "Parrot Wrapper"
+authors = ["Mete Ismayilzada <mahammad.ismayilzada@epfl.ch>"]
+license = "Apache License 2.0"
+readme = "README.md"
+homepage = "https://github.com/epfl-nlp/parrot"
+repository = "https://github.com/epfl-nlp/parrot"
+documentation = "https://github.com/epfl-nlp/parrot"
+keywords = [
+    "gpt3",
+    "gpt",
+    "chatgpt",
+    "wrapper"
+]
+classifiers = []
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+requests = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+flake8 = "*"
+black = "~22.12.0"
+mypy = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
