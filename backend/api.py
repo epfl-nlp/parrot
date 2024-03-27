@@ -1,7 +1,7 @@
 from typing import List, Tuple
 from sqlalchemy import select, func
 
-from database import db, User, Account, Chat, Message, MessageRole
+from database import db, User, Account, Chat, Message, MessageRoleType
 from gpt import ask_chatgpt, ask_gpt3, MODEL_TYPES, GPTError, check_model_args
 
 
@@ -272,14 +272,14 @@ def ask(
         if instruction:
             instruction_msg = create_message(
                 content=instruction,
-                role=MessageRole.SYSTEM,
+                role=MessageRoleType.SYSTEM,
                 chat_id=chat_id,
                 commit=False,
             )
             messages.append(instruction_msg)
 
         request_msg = create_message(
-            content=content, role=MessageRole.USER, chat_id=chat_id, commit=False
+            content=content, role=MessageRoleType.USER, chat_id=chat_id, commit=False
         )
         messages.append(request_msg)
 
@@ -291,7 +291,7 @@ def ask(
         account.usage += gpt_response.usage["total_tokens"]
         response_msg = create_message(
             content=gpt_response.content,
-            role=MessageRole.ASSISTANT,
+            role=MessageRoleType.ASSISTANT,
             chat_id=chat_id,
             model_args=gpt_response.model_args,
             usage=gpt_response.usage,

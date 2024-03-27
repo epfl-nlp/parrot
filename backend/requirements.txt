@@ -5,7 +5,7 @@ Flask-SQLAlchemy
 SQLAlchemy-serializer
 flask-expects-json
 Flask-HTTPAuth
-openai
+openai>=1.0.0
 flake8
 black
 psycopg2-binary

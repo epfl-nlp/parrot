@@ -10,7 +10,7 @@ from app import app
 db = SQLAlchemy()
 
 
-class MessageRole(enum.Enum):
+class MessageRoleType(enum.Enum):
     USER = "user"
     ASSISTANT = "assistant"
     SYSTEM = "system"
@@ -91,7 +91,7 @@ class Chat(Base, SerializerMixin):
 
 class Message(Base, SerializerMixin):
     content = db.Column(db.Text)
-    role = db.Column(db.Enum(MessageRole))
+    role = db.Column(db.Enum(MessageRoleType))
     chat_id = db.Column(db.Integer, db.ForeignKey("chat.id"), nullable=False, index=True)
     model_args = db.Column(db.JSON, unique=False, nullable=True)
     usage = db.Column(db.JSON, unique=False, nullable=True)

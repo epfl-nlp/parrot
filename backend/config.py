@@ -23,7 +23,7 @@ DEFAULT_MODEL_ARGS = {
     "frequency_penalty": 0,
     "best_of": 1,
 }
-DEFAULT_TEXT_COMPLETION_MODEL = "text-davinci-003"
+DEFAULT_TEXT_COMPLETION_MODEL = "gpt-3.5-turbo-instruct"
 DEFAULT_CHAT_COMPLETION_MODEL = "gpt-3.5-turbo"
 DEFAULT_INSTRUCTION_PREFIX = "My request: "
 DEFAULT_USER_PREFIX = "My request: "

@@ -1,8 +1,8 @@
-"""initial migration
+"""Initial migration
 
-Revision ID: c0b85395fddf
+Revision ID: 78105793a1ee
 Revises: 
-Create Date: 2023-09-27 16:12:36.240202
+Create Date: 2024-03-27 23:53:07.554424
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c0b85395fddf'
+revision = '78105793a1ee'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,7 +26,7 @@ def upgrade():
     sa.Column('usage', sa.Integer(), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('api_key'),
@@ -40,7 +40,7 @@ def upgrade():
     sa.Column('user_prefix', sa.Text(), nullable=True),
     sa.Column('assistant_prefix', sa.Text(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['account_id'], ['account.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -53,7 +53,7 @@ def upgrade():
     sa.Column('code', sa.String(length=80), nullable=False),
     sa.Column('account_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['account_id'], ['account.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -61,12 +61,12 @@ def upgrade():
     )
     op.create_table('message',
     sa.Column('content', sa.Text(), nullable=True),
-    sa.Column('role', sa.Enum('USER', 'ASSISTANT', 'SYSTEM', name='messagerole'), nullable=True),
+    sa.Column('role', sa.Enum('USER', 'ASSISTANT', 'SYSTEM', name='messageroletype'), nullable=True),
     sa.Column('chat_id', sa.Integer(), nullable=False),
     sa.Column('model_args', sa.JSON(), nullable=True),
     sa.Column('usage', sa.JSON(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['chat_id'], ['chat.id'], ),
     sa.PrimaryKeyConstraint('id')

@@ -4,7 +4,7 @@ import traceback
 from flask import jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
-from openai.error import OpenAIError, Timeout, RateLimitError
+from openai import OpenAIError, APITimeoutError, RateLimitError
 from jsonschema import ValidationError
 from werkzeug.exceptions import HTTPException
 
@@ -15,7 +15,7 @@ from account import account_api
 from user import user_api
 from chat import chat_api
 
-VERSION = "0.2.0"
+VERSION = "1.0.0"
 
 CORS(app)
 migrate = Migrate()
@@ -26,7 +26,7 @@ def handle_bad_request(e):
     return jsonify({"error": str(e)}), 400
 
 
-@app.errorhandler(Timeout)
+@app.errorhandler(APITimeoutError)
 def handle_openai_error_timeout(e):
     app.logger.error(traceback.format_exc())
     return jsonify({"error": "OpenAI timed out."}), 504

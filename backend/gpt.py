@@ -1,13 +1,11 @@
 from typing import List
 import os
-import openai
+from openai import OpenAI
 from dataclasses import dataclass
 import time
 
-from database import MessageRole, Chat, Message
+from database import MessageRoleType, Chat, Message
 from app import app
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 MODEL_TYPES = ["text_completion", "chat_completion"]
 
@@ -69,12 +67,12 @@ def check_model_args(model_args: dict) -> dict:
     }
 
 
-def get_prefix(chat: Chat, role: MessageRole) -> str:
-    if role == MessageRole.SYSTEM:
+def get_prefix(chat: Chat, role: MessageRoleType) -> str:
+    if role == MessageRoleType.SYSTEM:
         return chat.instruction_prefix
-    elif role == MessageRole.USER:
+    elif role == MessageRoleType.USER:
         return chat.user_prefix
-    elif role == MessageRole.ASSISTANT:
+    elif role == MessageRoleType.ASSISTANT:
         return chat.assistant_prefix
     else:
         raise GPTError("Invalid role")
@@ -93,9 +91,11 @@ def ask_gpt3(
 
     # app.logger.debug(f"Prompt:\n{prompt}")
 
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
     start_time = time.time()
-    response = openai.Completion.create(
-        engine=model,
+    response = client.completions.create(
+        model=model,
         prompt=prompt,
         n=1,
         best_of=model_args.get("best_of", app.config["DEFAULT_MODEL_ARGS"]["best_of"]),
@@ -118,9 +118,9 @@ def ask_gpt3(
     app.logger.info(f"GPT-3 Completion time: {end_time - start_time} seconds")
 
     return GPTResponse(
-        content=response["choices"][0]["text"],
+        content=response.choices[0].text,
         model_args=model_args,
-        usage=response["usage"],
+        usage=dict(response.usage),
     )
 
 
@@ -134,8 +134,10 @@ def ask_chatgpt(
         {"role": str(message.role), "content": message.content} for message in messages
     ]
 
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
     start_time = time.time()
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=model,
         messages=chat_messages,
         n=1,
@@ -158,7 +160,7 @@ def ask_chatgpt(
     app.logger.info(f"ChatGPT Completion time: {end_time - start_time} seconds")
 
     return GPTResponse(
-        content=response["choices"][0]["message"]["content"],
+        content=response.choices[0].message.content,
         model_args=model_args,
-        usage=response["usage"],
+        usage=dict(response.usage),
     )

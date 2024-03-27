@@ -148,6 +148,7 @@ This service uses an SQL database and [Flask-Migrate](https://flask-migrate.read
 ```sh
 FLASK_APP="server:init_app()" DATABASE_URL=<database url> flask db upgrade
 ```
+If you are using a local Postgres instance, then the url is usually the following: `postgresql:///postgres`. To connect to this local db from Docker, use `postgresql://postgres@host.docker.internal:5432/postgres`.
 
 To create a new database migration:
 ```sh
@@ -170,12 +171,12 @@ This backend service can be run and deployed as a docker container as well with 
 
 Build the docker image:
 ```sh
-docker build . -t backend-service
+docker build . -t parrot-backend
 ```
 
 Run the docker image:
 ```sh
-docker run -p 8080:8080 -it -d -e "FLASK_APP=server:init_app()" -e "FLASK_RUN_PORT=8080" -e "FLASK_CONFIG=prod_config.py" -e "FLASK_DEBUG=False" -e "OPENAI_API_KEY=<OpenAI API Key>" -e "PARROT_ADMIN_TOKEN=<admin token>" -e "DATABASE_URL=<database url>" backend-service
+docker run -p 8080:8080 -it -d -e "FLASK_APP=server:init_app()" -e "FLASK_RUN_PORT=8080" -e "FLASK_CONFIG=prod_config.py" -e "FLASK_DEBUG=False" -e "OPENAI_API_KEY=<OpenAI API Key>" -e "PARROT_ADMIN_TOKEN=<admin token>" -e "DATABASE_URL=<database url>" parrot-backend
 ```
 
 ### Deployment on AWS
@@ -193,10 +194,10 @@ aws ecr get-login-password | docker login --username AWS --password-stdin <accou
 
 Build the docker image:
 ```sh
-docker build . -t <account-id>.dkr.ecr.<region>.amazonaws.com/backend-service
+docker build . -t <account-id>.dkr.ecr.<region>.amazonaws.com/parrot-backend
 ```
 
 Push docker image:
 ```sh
-docker push <account-id>.dkr.ecr.<region>.amazonaws.com/backend-service
+docker push <account-id>.dkr.ecr.<region>.amazonaws.com/parrot-backend
 ```
