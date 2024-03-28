@@ -201,3 +201,8 @@ Push docker image:
 ```sh
 docker push <account-id>.dkr.ecr.<region>.amazonaws.com/parrot-backend
 ```
+
+If you would like to set up AWS Fargate ECS Service with Load Balancing, then first create an ECS Cluster and task definition. Then create a target group based on IP addresses and set the port to the port that you specified in `FLASK_RUN_PORT` (e.g. 8080). Then create a load balancer with listener at port 80 pointing to the target group created and an ECS service that uses this existing load balancer and target group.
+By default, load balancer listener allows all requests and this results in constant spam attacks on the server. To block these requests, add rules to the listener to only allow requests with the path `/api/*` (for API access) and with the `GET /` request (for health check).
+
+If you set up the AWS RDS instance, then by default it allows only encrypted access (forces SSL access). To remove this encryption, create a new parameter group with the same postgres version as the default one, then modify the `rds.force_ssl` parameter to have value 0. Then modify the database to register it with this new parameter group and restart the database.
