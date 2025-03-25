@@ -171,7 +171,7 @@ This backend service can be run and deployed as a docker container as well with 
 
 Build the docker image:
 ```sh
-docker build . -t parrot-backend
+docker build . --platform linux/amd64 -t parrot-backend
 ```
 
 Run the docker image:
@@ -194,7 +194,7 @@ aws ecr get-login-password | docker login --username AWS --password-stdin <accou
 
 Build the docker image:
 ```sh
-docker build . -t <account-id>.dkr.ecr.<region>.amazonaws.com/parrot-backend
+docker build . --platform linux/amd64 -t <account-id>.dkr.ecr.<region>.amazonaws.com/parrot-backend
 ```
 
 Push docker image:

@@ -120,7 +120,11 @@ def ask_gpt3(
     return GPTResponse(
         content=response.choices[0].text,
         model_args=model_args,
-        usage=dict(response.usage),
+        usage={
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.total_tokens
+        },
     )
 
 
@@ -162,5 +166,9 @@ def ask_chatgpt(
     return GPTResponse(
         content=response.choices[0].message.content,
         model_args=model_args,
-        usage=dict(response.usage),
+        usage={
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.total_tokens
+        }
     )

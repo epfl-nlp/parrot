@@ -14,7 +14,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # OpenAI config
 DEFAULT_BUDGET = 1e4
 DEFAULT_MODEL_TYPE = "chat_completion"
-DEFAULT_MODEL = "gpt-3.5-turbo"
+DEFAULT_MODEL = "gpt-4o-mini"
 DEFAULT_MODEL_ARGS = {
     "temperature": 0.7,
     "top_p": 1.0,
@@ -24,7 +24,7 @@ DEFAULT_MODEL_ARGS = {
     "best_of": 1,
 }
 DEFAULT_TEXT_COMPLETION_MODEL = "gpt-3.5-turbo-instruct"
-DEFAULT_CHAT_COMPLETION_MODEL = "gpt-3.5-turbo"
+DEFAULT_CHAT_COMPLETION_MODEL = "gpt-4o-mini"
 DEFAULT_INSTRUCTION_PREFIX = "My request: "
 DEFAULT_USER_PREFIX = "My request: "
 DEFAULT_ASSISTANT_PREFIX = "Your response: "
