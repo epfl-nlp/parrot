@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gpt_wrapper"
-version = "0.1.0"
+version = "0.2.0"
 description = "Parrot Wrapper"
 authors = ["Mete Ismayilzada <mahammad.ismayilzada@epfl.ch>"]
 license = "Apache License 2.0"
@@ -17,7 +17,7 @@ keywords = [
 classifiers = []
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
+python = ">=3.8,<3.13"
 requests = "*"
 
 [tool.poetry.dev-dependencies]
