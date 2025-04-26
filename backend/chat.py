@@ -4,6 +4,7 @@ from flask_expects_json import expects_json
 from app import app
 from api import get_chats, create_chat, get_messages, ask, check_account_chat, get_num_messages
 from auth import auth, USER_ROLE
+from utils import clean_string
 
 chat_api = Blueprint("chat_api", __name__)
 
@@ -41,7 +42,7 @@ message_schema = {
 @auth.login_required(role=USER_ROLE)
 def handle_get_chats():
     user = auth.current_user()
-    name = request.args.get("name")
+    name = clean_string(request.args.get("name"))
     chats = get_chats(account_id=user["account"].id, name=name)
     return jsonify([chat.to_dict() for chat in chats])
 
@@ -51,11 +52,11 @@ def handle_get_chats():
 @expects_json(chat_schema)
 def handle_add_chat():
     user = auth.current_user()
-    name = request.json["name"]
+    name = clean_string(request.json["name"])
     model_type = request.json.get("model_type", app.config["DEFAULT_MODEL_TYPE"])
-    instruction_prefix = request.json.get("instruction_prefix")
-    user_prefix = request.json.get("user_prefix")
-    assistant_prefix = request.json.get("assistant_prefix")
+    instruction_prefix = clean_string(request.json.get("instruction_prefix"))
+    user_prefix = clean_string(request.json.get("user_prefix"))
+    assistant_prefix = clean_string(request.json.get("assistant_prefix"))
     account_id = user["account"].id
     chat = create_chat(
         name=name,
@@ -84,8 +85,8 @@ def handle_get_messages(chat_id):
 def handle_add_message(chat_id):
     user = auth.current_user()
     account_id = user["account"].id
-    content = request.json["content"]
-    instruction = request.json.get("instruction")
+    content = clean_string(request.json["content"])
+    instruction = clean_string(request.json.get("instruction"))
     model_args = request.json.get("model_args", {})
     check_account_chat(account_id=account_id, chat_id=chat_id)
     message, over_soft_limit = ask(
